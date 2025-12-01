@@ -1,0 +1,5 @@
+{
+  "name": "CircuitSim AI (模拟电路教学)",
+  "description": "一个用于教学的交互式模拟电路仿真工具。可视化波形，实时调整参数，并获得由 AI 驱动的电路原理讲解（如放大器、滤波器和分压器）。",
+  "requestFramePermissions": []
+}
