@@ -83,8 +83,8 @@ export const CircuitDiagram: React.FC<DiagramProps> = ({ type, params }) => {
       <g>
         <path d={`M${x-25},${y-30} L${x-25},${y+30} L${x+35},${y} Z`} fill="#1e293b" stroke={c.comp} strokeWidth="2" strokeLinejoin="round" />
         {/* 输入引脚 */}
-        <line x1={x-40} y1={y-10} x2={x-25} y2={y-10} stroke={c.comp} strokeWidth="2" />
-        <line x1={x-40} y1={y+10} x2={x-25} y2={y+10} stroke={c.comp} strokeWidth="2" />
+        <line x1={x-40} y1={y-10} x2={x-25} y2={y-10} stroke={c.wire} strokeWidth="2" />
+        <line x1={x-40} y1={y+10} x2={x-25} y2={y+10} stroke={c.wire} strokeWidth="2" />
         {/* 符号 */}
         <text x={x-20} y={y-4} fill={c.label} fontSize="14" fontWeight="bold">{topSign}</text>
         <text x={x-20} y={y+16} fill={c.label} fontSize="14" fontWeight="bold">{botSign}</text>
@@ -130,8 +130,6 @@ export const CircuitDiagram: React.FC<DiagramProps> = ({ type, params }) => {
   if (type === CircuitType.VOLTAGE_DIVIDER) {
     return (
       <svg viewBox="0 0 340 240" className="w-full h-full select-none">
-        <text x="170" y="30" textAnchor="middle" fill={c.comp} fontSize="18" fontWeight="bold">电压分压器 (Voltage Divider)</text>
-        
         {/* 输入 */}
         <Label x="60" y="60" text="Vin" color={c.in} />
         <circle cx="90" cy="60" r="3" stroke={c.in} fill="none" strokeWidth="2"/>
@@ -162,8 +160,6 @@ export const CircuitDiagram: React.FC<DiagramProps> = ({ type, params }) => {
   if (type === CircuitType.INVERTING_OPAMP) {
     return (
       <svg viewBox="0 0 340 240" className="w-full h-full select-none">
-        <text x="170" y="30" textAnchor="middle" fill={c.comp} fontSize="18" fontWeight="bold">反向放大器</text>
-        
         <OpAmp x={180} y={120} label="OpAmp" /> 
         {/* Inverting Input at y=110, Non-Inv at y=130 */}
 
@@ -199,7 +195,6 @@ export const CircuitDiagram: React.FC<DiagramProps> = ({ type, params }) => {
   if (type === CircuitType.NON_INVERTING_OPAMP) {
     return (
       <svg viewBox="0 0 340 240" className="w-full h-full select-none">
-        <text x="170" y="30" textAnchor="middle" fill={c.comp} fontSize="18" fontWeight="bold">同向放大器</text>
         <OpAmp x={180} y={120} label="OpAmp" />
 
         {/* Non-Inverting Input (+) at y=130 */}
@@ -236,7 +231,6 @@ export const CircuitDiagram: React.FC<DiagramProps> = ({ type, params }) => {
   if (type === CircuitType.LOW_PASS_FILTER) {
     return (
       <svg viewBox="0 0 340 240" className="w-full h-full select-none">
-        <text x="170" y="30" textAnchor="middle" fill={c.comp} fontSize="18" fontWeight="bold">RC 低通滤波器</text>
         
         <Label x="50" y="100" text="Vin" color={c.in} />
         <circle cx="70" cy="100" r="3" stroke={c.in} fill="none" strokeWidth="2"/>
@@ -262,7 +256,6 @@ export const CircuitDiagram: React.FC<DiagramProps> = ({ type, params }) => {
   if (type === CircuitType.SUMMING_AMPLIFIER) {
     return (
       <svg viewBox="0 0 340 240" className="w-full h-full select-none">
-        <text x="170" y="30" textAnchor="middle" fill={c.comp} fontSize="18" fontWeight="bold">加法器 (Summing Amplifier)</text>
         <OpAmp x={190} y={120} label="Sum" />
         
         {/* Inputs Node */}
@@ -307,7 +300,6 @@ export const CircuitDiagram: React.FC<DiagramProps> = ({ type, params }) => {
   if (type === CircuitType.DIFFERENCE_AMPLIFIER) {
     return (
        <svg viewBox="0 0 340 240" className="w-full h-full select-none">
-        <text x="170" y="30" textAnchor="middle" fill={c.comp} fontSize="18" fontWeight="bold">减法器 (Difference Amplifier)</text>
         <OpAmp x={190} y={120} label="Diff" />
 
         {/* Top: V1 -> R1 -> NodeA -> OpAmp- */}
@@ -353,7 +345,6 @@ export const CircuitDiagram: React.FC<DiagramProps> = ({ type, params }) => {
   if (type === CircuitType.PHOTODIODE_SENSOR) {
     return (
       <svg viewBox="0 0 340 240" className="w-full h-full select-none">
-        <text x="170" y="30" textAnchor="middle" fill={c.comp} fontSize="18" fontWeight="bold">光电池采样 (Photodiode)</text>
         
         {/* Vbias */}
         <Label x="160" y="60" text="Vcc" color={c.in} />
@@ -382,7 +373,6 @@ export const CircuitDiagram: React.FC<DiagramProps> = ({ type, params }) => {
   if (type === CircuitType.TRANS_IMPEDANCE_AMPLIFIER) {
     return (
       <svg viewBox="0 0 340 240" className="w-full h-full select-none">
-        <text x="170" y="30" textAnchor="middle" fill={c.comp} fontSize="18" fontWeight="bold">跨阻放大器 (TIA)</text>
         <OpAmp x={190} y={120} label="TIA" />
 
         {/* Diode Input */}
@@ -415,126 +405,125 @@ export const CircuitDiagram: React.FC<DiagramProps> = ({ type, params }) => {
     );
   }
 
-  // 9. 有源带通滤波器 (Standard Inverting BPF)
+  // 9. 有源带通滤波器 (Standard Inverting BPF / MFB)
   if (type === CircuitType.BAND_PASS_FILTER) {
     return (
       <svg viewBox="0 0 340 240" className="w-full h-full select-none">
-        <text x="170" y="30" textAnchor="middle" fill={c.comp} fontSize="18" fontWeight="bold">有源带通滤波器 (Band Pass)</text>
-        <OpAmp x={190} y={120} label="BPF" />
-
-        {/* Input Path (Series C and R) */}
-        <Label x="30" y="110" text="Vin" color={c.in} />
-        <circle cx="50" cy="110" r="3" stroke={c.in} fill="none" strokeWidth="2"/>
-        <line x1="53" y1="110" x2="60" y2="110" stroke={c.wire} strokeWidth="2" />
-        <Capacitor x={80} y={110} label="Cin" val={`${params.c}nF`} />
-        <line x1="100" y1="110" x2="110" y2="110" stroke={c.wire} strokeWidth="2" />
-        <Resistor x={140} y={110} label="Rin" val={`${params.r}k`} />
-        <Node x={170} y={110} /> {/* Inv Input Node */}
-        <line x1="170" y1="110" x2="150" y2="110" stroke={c.wire} strokeWidth="2" /> {/* To OpAmp - */}
-
-        {/* Feedback Path (Parallel R and C) */}
-        <line x1="170" y1="110" x2="170" y2="60" stroke={c.wire} strokeWidth="2" />
         
-        {/* Split for parallel */}
-        <line x1="170" y1="60" x2="240" y2="60" stroke={c.wire} strokeWidth="2" />
+        {/* OpAmp */}
+        <OpAmp x={240} y={130} label="BPF" />
+        {/* OpAmp Inputs: (-) at y=120, (+) at y=140 */}
+
+        {/* (+) Input to Ground */}
+        <line x1={215} y1={140} x2={215} y2={160} stroke={c.wire} strokeWidth="2" />
+        <Ground x={215} y={160} />
+
+        {/* Input V_in */}
+        <Label x={30} y={120} text="Vin" color={c.in} />
+        <circle cx={50} cy={120} r="3" stroke={c.in} fill="none" strokeWidth="2"/>
+        <line x1={53} y1={120} x2="70" y2="120" stroke={c.wire} strokeWidth="2" />
+
+        {/* R1 (Input Resistor) */}
+        <Resistor x={100} y={120} label="R1" val={`${params.r}k`} />
         
-        {/* R_f top */}
-        <line x1="185" y1="60" x2="185" y2="40" stroke={c.wire} strokeWidth="2" />
-        <line x1="185" y1="40" x2="225" y2="40" stroke={c.wire} strokeWidth="2" />
-        <Resistor x={205} y={40} label="Rf" val={`${params.r}k`} />
-
-        {/* C_f bottom */}
-        <line x1="185" y1="60" x2="185" y2="80" stroke={c.wire} strokeWidth="2" />
-        <line x1="185" y1="80" x2="225" y2="80" stroke={c.wire} strokeWidth="2" />
-        <Capacitor x={205} y={80} label="Cf" val={`${params.c}nF`} />
+        {/* Node 1 (Summing Node) */}
+        <Node x={140} y={120} />
         
-        {/* Rejoin */}
-        <line x1="225" y1="40" x2="225" y2="80" stroke={c.wire} strokeWidth="2" />
-        <line x1="225" y1="60" x2="240" y2="60" stroke={c.wire} strokeWidth="2" />
-        <line x1="240" y1="60" x2="240" y2="120" stroke={c.wire} strokeWidth="2" />
+        {/* R2 (Ground Resistor) from Node 1 */}
+        <line x1={140} y1={120} x2={140} y2={150} stroke={c.wire} strokeWidth="2" />
+        <Resistor x={140} y={180} label="R2" val="1k" v={true} />
+        <Ground x={140} y={215} />
 
-        {/* Output */}
-        <line x1="230" y1="120" x2="280" y2="120" stroke={c.wire} strokeWidth="2" />
-        <Node x={240} y={120} />
-        <Label x="300" y="120" text="Vout" color={c.out} />
+        {/* C1 (Series Capacitor) Node 1 -> Inv Input */}
+        <line x1={140} y1={120} x2={150} y2={120} stroke={c.wire} strokeWidth="2" />
+        <Capacitor x={180} y={120} label="C1" val={`${params.c}nF`} />
+        <line x1={205} y1={120} x2={215} y2={120} stroke={c.wire} strokeWidth="2" /> {/* To OpAmp - */}
 
-        {/* Gnd */}
-        <line x1="150" y1="130" x2="140" y2="130" stroke={c.wire} strokeWidth="2" />
-        <line x1="140" y1="130" x2="140" y2="150" stroke={c.wire} strokeWidth="2" />
-        <Ground x={140} y={150} />
+        {/* Feedback 1: C2 from Output to Node 1 */}
+        <line x1={275} y1={130} x2={290} y2={130} stroke={c.wire} strokeWidth="2" />
+        <Node x={290} y={130} />
+        
+        <line x1={290} y1={130} x2={290} y2={60} stroke={c.wire} strokeWidth="2" />
+        <line x1={290} y1={60} x2={210} y2={60} stroke={c.wire} strokeWidth="2" />
+        <Capacitor x={180} y={60} label="C2" val={`${params.c}nF`} />
+        <line x1={155} y1={60} x2={140} y2={60} stroke={c.wire} strokeWidth="2" />
+        <line x1={140} y1={60} x2={140} y2={120} stroke={c.wire} strokeWidth="2" />
+
+        {/* Feedback 2: Rf from Output to Inv Input */}
+        <line x1={290} y1={130} x2={290} y2={90} stroke={c.wire} strokeWidth="2" />
+        <line x1={290} y1={90} x2={250} y2={90} stroke={c.wire} strokeWidth="2" />
+        <Resistor x={240} y={90} label="Rf" val={`${params.r}k`} />
+        <line x1={215} y1={90} x2={215} y2={120} stroke={c.wire} strokeWidth="2" />
+
+        {/* Output Label */}
+        <line x1={290} y1={130} x2={310} y2={130} stroke={c.wire} strokeWidth="2" />
+        <Label x={325} y={130} text="Vout" color={c.out} />
       </svg>
     );
   }
 
-  // 10. 文氏电桥振荡器 (Signal Generator) - 完美对齐版
+  // 10. 文氏电桥振荡器 (Signal Generator) - 修正遮挡
   if (type === CircuitType.SIGNAL_GENERATOR) {
+    const yOffset = 0; // Removed offset since title is gone
     return (
       <svg viewBox="0 0 340 240" className="w-full h-full select-none">
-        <text x="170" y="30" textAnchor="middle" fill={c.comp} fontSize="18" fontWeight="bold">文氏电桥 (Wien Bridge)</text>
         
-        {/* 1. 运放 (右侧) */}
-        {/* OpAmp center @ 240, 120. Input (-) @ 110, Input (+) @ 130 */}
-        <OpAmp x={240} y={120} label="Osc" />
+        {/* OpAmp center @ 240, 160 */}
+        <OpAmp x={240} y={120 + yOffset} label="Osc" />
 
-        {/* 2. 输出节点 */}
-        <line x1="275" y1="120" x2="300" y2="120" stroke={c.wire} strokeWidth="2" />
-        <Node x={280} y={120} />
-        <Label x="320" y="120" text="Out" color={c.out} />
+        {/* Output Node */}
+        <line x1={275} y1={120 + yOffset} x2={300} y2={120 + yOffset} stroke={c.wire} strokeWidth="2" />
+        <Node x={280} y={120 + yOffset} />
+        <Label x={320} y={120 + yOffset} text="Out" color={c.out} />
 
-        {/* 3. 反馈顶层轨道 (从输出引回) */}
-        <line x1="280" y1="120" x2="280" y2="25" stroke={c.wire} strokeWidth="2" />
-        <line x1="280" y1="25" x2="80" y2="25" stroke={c.wire} strokeWidth="2" />
+        {/* Feedback Top Rail */}
+        <line x1={280} y1={120 + yOffset} x2={280} y2={25 + yOffset} stroke={c.wire} strokeWidth="2" />
+        <line x1={280} y1={25 + yOffset} x2={80} y2={25 + yOffset} stroke={c.wire} strokeWidth="2" />
 
-        {/* 4. 增益分支 (Gain Branch) - 连接到反相输入 (-) */}
-        {/* 位于 x = 160 */}
-        <line x1="160" y1="25" x2="160" y2="110" stroke={c.wire} strokeWidth="2" />
-        {/* Rf (Gain Resistor) */}
-        <Resistor x={160} y={65} label="Rf" val="2R" v={true} />
+        {/* Gain Branch (Negative Feedback) to (-) Input */}
+        <line x1={160} y1={25 + yOffset} x2={160} y2={110 + yOffset} stroke={c.wire} strokeWidth="2" />
         
-        {/* 节点 A: 连接到运放 (-) */}
-        <Node x={160} y={110} />
-        <line x1="160" y1="110" x2="215" y2="110" stroke={c.wire} strokeWidth="2" /> {/* To OpAmp - */}
+        {/* Rf (Gain) */}
+        <Resistor x={160} y={65 + yOffset} label="Rf" val="2R" v={true} />
+        
+        {/* Node A: Connect to OpAmp (-) at (215, 110 + off) */}
+        <Node x={160} y={110 + yOffset} />
+        <line x1={160} y1={110 + yOffset} x2={215} y2={110 + yOffset} stroke={c.wire} strokeWidth="2" />
 
-        {/* R1 (Ground Resistor) */}
-        <line x1="160" y1="110" x2="160" y2="185" stroke={c.wire} strokeWidth="2" />
-        <Resistor x={160} y={150} label="R1" val="R" v={true} />
-        <Ground x={160} y={185} />
+        {/* R1 (Ground) */}
+        <line x1={160} y1={110 + yOffset} x2={160} y2={185 + yOffset} stroke={c.wire} strokeWidth="2" />
+        <Resistor x={160} y={150 + yOffset} label="R1" val="R" v={true} />
+        <Ground x={160} y={185 + yOffset} />
 
-        {/* 5. 选频分支 (Wien Branch) - 连接到同相输入 (+) */}
-        {/* 位于 x = 80 */}
-        <line x1="80" y1="25" x2="80" y2="130" stroke={c.wire} strokeWidth="2" />
+        {/* Wien Branch (Frequency Selective) to (+) Input */}
+        <line x1={80} y1={25 + yOffset} x2={80} y2={130 + yOffset} stroke={c.wire} strokeWidth="2" />
         
-        {/* 串联 RC */}
-        <Resistor x={80} y={50} label="R" val={`${params.r}k`} v={true} />
-        <Capacitor x={80} y={90} label="C" val={`${params.c}nF`} v={true} />
+        {/* Series RC */}
+        <Resistor x={80} y={50 + yOffset} label="R" val={`${params.r}k`} v={true} />
+        <Capacitor x={80} y={90 + yOffset} label="C" val={`${params.c}nF`} v={true} />
         
-        {/* 节点 B: 连接到运放 (+) */}
-        <Node x={80} y={130} />
-        {/* 绕过 Gain 分支连到同相端 */}
-        {/* 路径: (80,130) -> (215,130). 
-            注意: Gain 分支的横线在 y=110, 竖线在 x=160.
-            此线在 y=130 穿过 x=160, 不会相交 (130 != 110). 完美. 
-        */}
-        <line x1="80" y1="130" x2="215" y2="130" stroke={c.wire} strokeWidth="2" />
-        
-        {/* 并联 RC (下半部分) */}
-        <line x1="80" y1="130" x2="80" y2="145" stroke={c.wire} strokeWidth="2" />
-        {/* 分叉 */}
-        <line x1="55" y1="145" x2="105" y2="145" stroke={c.wire} strokeWidth="2" />
-        
-        {/* 左 R */}
-        <line x1="55" y1="145" x2="55" y2="205" stroke={c.wire} strokeWidth="2" />
-        <Resistor x={55} y={175} label="R" val={`${params.r}k`} v={true} />
-        
-        {/* 右 C */}
-        <line x1="105" y1="145" x2="105" y2="205" stroke={c.wire} strokeWidth="2" />
-        <Capacitor x={105} y={175} label="C" val={`${params.c}nF`} v={true} />
+        {/* Node B: Connect to OpAmp (+) at (215, 130 + off) */}
+        <Node x={80} y={130 + yOffset} />
+        {/* Horizontal wire to (+) input. */}
+        <line x1={80} y1={130 + yOffset} x2={215} y2={130 + yOffset} stroke={c.wire} strokeWidth="2" />
 
-        {/* 汇合接地 */}
-        <line x1="55" y1="205" x2="105" y2="205" stroke={c.wire} strokeWidth="2" />
-        <line x1="80" y1="205" x2="80" y2="215" stroke={c.wire} strokeWidth="2" />
-        <Ground x={80} y={215} />
+        {/* Parallel RC */}
+        <line x1={80} y1={130 + yOffset} x2={80} y2={145 + yOffset} stroke={c.wire} strokeWidth="2" />
+        {/* Split */}
+        <line x1={55} y1={145 + yOffset} x2={105} y2={145 + yOffset} stroke={c.wire} strokeWidth="2" />
+        
+        {/* Left R */}
+        <line x1={55} y1={145 + yOffset} x2={55} y2={205 + yOffset} stroke={c.wire} strokeWidth="2" />
+        <Resistor x={55} y={175 + yOffset} label="R" val={`${params.r}k`} v={true} />
+        
+        {/* Right C */}
+        <line x1={105} y1={145 + yOffset} x2={105} y2={205 + yOffset} stroke={c.wire} strokeWidth="2" />
+        <Capacitor x={105} y={175 + yOffset} label="C" val={`${params.c}nF`} v={true} />
 
+        {/* Rejoin Gnd */}
+        <line x1={55} y1={205 + yOffset} x2={105} y2={205 + yOffset} stroke={c.wire} strokeWidth="2" />
+        <line x1={80} y1={205 + yOffset} x2={80} y2={215 + yOffset} stroke={c.wire} strokeWidth="2" />
+        <Ground x={80} y={215 + yOffset} />
       </svg>
     );
   }
